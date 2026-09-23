@@ -3,7 +3,6 @@ import requests
 
 st.set_page_config(
     page_title="Personal Assistant - Suraj",
-    page_icon="🤝",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -54,29 +53,29 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 with st.sidebar:
-    st.markdown("## 🤝 Personal Assistant")
+    st.markdown("## Personal Assistant")
     st.caption("AI-powered productivity assistant")
 
     st.divider()
 
     st.markdown("### Capabilities")
     st.markdown("""
-    **📅 Calendar**  
+    **Calendar**  
     Create and view calendar events.
 
-    **✉️ Gmail**  
+    **Gmail**  
     Read, summarize, send and reply to emails.
 
-    **✅ Tasks**  
+    **Tasks**  
     Create, view and delete tasks.
 
-    **📝 Notes**  
+    **Notes**  
     Create and update notes.
 
-    **💰 Expenses**  
+    **Expenses**  
     Track expenses and calculate totals.
 
-    **🔎 Information**  
+    **Information**  
     Answer questions and search the web.
     """)
 
@@ -84,33 +83,33 @@ with st.sidebar:
 
     st.markdown("### Quick Actions")
 
-    if st.button("📅 Create an event", use_container_width=True):
+    if st.button("Create an event", use_container_width=True):
         st.session_state.quick_prompt = "Create an event for tomorrow at 10:00 AM for 2 hours."
         st.rerun()
 
-    if st.button("📅 Today's events", use_container_width=True):
+    if st.button("Today's events", use_container_width=True):
         st.session_state.quick_prompt = "Show me my calendar events for today."
         st.rerun()
 
-    if st.button("✉️ Check emails", use_container_width=True):
+    if st.button("Check emails", use_container_width=True):
         st.session_state.quick_prompt = "Show me my latest emails."
         st.rerun()
 
-    if st.button("✅ Create a task", use_container_width=True):
+    if st.button("Create a task", use_container_width=True):
         st.session_state.quick_prompt = "Create a task to review my project tomorrow."
         st.rerun()
 
-    if st.button("📝 Create a note", use_container_width=True):
+    if st.button("Create a note", use_container_width=True):
         st.session_state.quick_prompt = "Create a new note about today's work."
         st.rerun()
 
-    if st.button("💰 Add an expense", use_container_width=True):
+    if st.button("Add an expense", use_container_width=True):
         st.session_state.quick_prompt = "Add an expense of Rs. 500 for food."
         st.rerun()
 
     st.divider()
 
-    if st.button("🗑️ Clear conversation", use_container_width=True):
+    if st.button("Clear conversation", use_container_width=True):
         st.session_state.messages = []
         st.rerun()
 
@@ -119,7 +118,7 @@ with st.sidebar:
 
 st.markdown("""
 <div class="assistant-header">
-    <div class="assistant-title">🤝 Personal Assistant</div>
+    <div class="assistant-title">Personal Assistant</div>
     <div class="assistant-subtitle">
         Your AI-powered productivity assistant for calendar, email,
         tasks, notes, expenses and information.
@@ -135,14 +134,14 @@ if not st.session_state.messages:
     with col1:
         st.markdown("""
         <div class="capability-card">
-        <b>📅 Calendar</b><br>
+        <b>Calendar</b><br>
         <span class="small-text">Create events and check your schedule.</span>
         </div>
         """, unsafe_allow_html=True)
 
         st.markdown("""
         <div class="capability-card">
-        <b>✉️ Gmail</b><br>
+        <b>Gmail</b><br>
         <span class="small-text">Read, summarize and manage emails.</span>
         </div>
         """, unsafe_allow_html=True)
@@ -150,14 +149,14 @@ if not st.session_state.messages:
     with col2:
         st.markdown("""
         <div class="capability-card">
-        <b>✅ Tasks</b><br>
+        <b>Tasks</b><br>
         <span class="small-text">Create and manage your to-do list.</span>
         </div>
         """, unsafe_allow_html=True)
 
         st.markdown("""
         <div class="capability-card">
-        <b>📝 Notes</b><br>
+        <b>Notes</b><br>
         <span class="small-text">Create and update your notes.</span>
         </div>
         """, unsafe_allow_html=True)
@@ -165,23 +164,20 @@ if not st.session_state.messages:
     with col3:
         st.markdown("""
         <div class="capability-card">
-        <b>💰 Expenses</b><br>
+        <b>Expenses</b><br>
         <span class="small-text">Track expenses and calculate totals.</span>
         </div>
         """, unsafe_allow_html=True)
 
         st.markdown("""
         <div class="capability-card">
-        <b>🔎 Information</b><br>
+        <b>Information</b><br>
         <span class="small-text">Ask questions and search for information.</span>
         </div>
         """, unsafe_allow_html=True)
 
 for message in st.session_state.messages:
-    with st.chat_message(
-        message["role"],
-        avatar="🤝" if message["role"] == "assistant" else "👤"
-    ):
+    with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
 quick_prompt = st.session_state.pop("quick_prompt", None)
@@ -196,10 +192,10 @@ if user_message:
         "content": user_message
     })
 
-    with st.chat_message("user", avatar="👤"):
+    with st.chat_message("user"):
         st.markdown(user_message)
 
-    with st.chat_message("assistant", avatar="🤝"):
+    with st.chat_message("assistant"):
         with st.spinner("Assistant is working..."):
             try:
                 response = requests.post(
@@ -248,23 +244,23 @@ if user_message:
 
             except requests.exceptions.ConnectionError:
                 ai_response = (
-                    "⚠️ **Could not connect to n8n.**\n\n"
+                    "**Could not connect to n8n.**\n\n"
                     "Make sure n8n is running on `http://localhost:5678` "
                     "and that your webhook workflow is active."
                 )
 
             except requests.exceptions.Timeout:
-                ai_response = "⚠️ **The assistant timed out.**"
+                ai_response = "**The assistant timed out.**"
 
             except requests.exceptions.HTTPError as e:
                 ai_response = (
-                    f"⚠️ **n8n returned an HTTP error.**\n\n"
+                    f"**n8n returned an HTTP error.**\n\n"
                     f"`{e}`\n\n"
                     f"```text\n{response.text[:1000]}\n```"
                 )
 
             except Exception as e:
-                ai_response = f"⚠️ **Assistant error**\n\n```text\n{e}\n```"
+                ai_response = f"**Assistant error**\n\n```text\n{e}\n```"
 
         st.markdown(ai_response)
 
